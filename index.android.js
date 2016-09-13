@@ -9,32 +9,22 @@ import {
     AppRegistry,
     View,
     ListView,
-    Text
+    StyleSheet
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
-class Book extends Component {
-    constructor() {
-        super()
-    }
+import Book from './components/book';
 
-    render() {
-        return (
-            <Text style={{flex: 1}}>Hello {this.props.title}</Text>
-        );
-    }
-}
+const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.title !== r2.title});
 
 class MicoseMobile extends Component {
     constructor(props) {
         super(props);
 
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.title !== r2.title});
-
         this.state = {
             loading: true,
-            dataSource: ds
+            dataSource: ds.cloneWithRows([])
         }
     }
 
@@ -45,13 +35,13 @@ class MicoseMobile extends Component {
     fetchBooks() {
         fetch('https://www.micose.pierrepironin.fr/api/books/')
             .then((response) => {
-                response.json()
+                return response.json();
             })
             .then((responseData) => {
-                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.title !== r2.title});
                 this.setState({
-                    dataSource: ds.cloneWithRows(responseData)
-                })
+                    loading: false,
+                    dataSource: ds.cloneWithRows(responseData.data)
+                });
             })
             .catch((error) => {
                 console.warn(error);
@@ -64,6 +54,7 @@ class MicoseMobile extends Component {
             <View style={{flex: 1}}>
                 <Spinner visible={this.state.loading}/>
                 <ListView
+                    style={styles.container}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) => <Book title={rowData.title}/>}
                 />
@@ -71,5 +62,12 @@ class MicoseMobile extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 20,
+    },
+});
 
 AppRegistry.registerComponent('MicoseMobile', () => MicoseMobile);
