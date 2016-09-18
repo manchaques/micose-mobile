@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import moment from 'moment';
 
 import Book from './components/book';
 
@@ -34,13 +35,20 @@ class MicoseMobile extends Component {
 
     fetchBooks() {
         fetch('https://www.micose.pierrepironin.fr/api/books/')
+        // fetch('http://192.168.0.22:4000/api/books/')
             .then((response) => {
                 return response.json();
             })
-            .then((responseData) => {
+            .then((response) => {
+                // Sort by update date
+                return response.data.sort((book1, book2) => {
+                    moment(book1.updateDate).isBefore(book2.updateDate)
+                }).reverse();
+            })
+            .then((books) => {
                 this.setState({
                     loading: false,
-                    dataSource: ds.cloneWithRows(responseData.data)
+                    dataSource: ds.cloneWithRows(books)
                 });
             })
             .catch((error) => {
@@ -56,7 +64,7 @@ class MicoseMobile extends Component {
                 <ListView
                     style={styles.container}
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <Book title={rowData.title}/>}
+                    renderRow={(rowData) => <Book book={rowData} />}
                 />
             </View>
         );
