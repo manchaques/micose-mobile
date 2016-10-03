@@ -53,7 +53,7 @@ class Book extends Component {
                         {this.props.book.title}
                     </Text>
                     <Text style={styles.owner}>
-                        {this.props.book.owner} {this.props.book.borrower ? '-> ' + this.props.book.borrower : ''}
+                        {this.props.book.owner.pseudo} {this.props.book.borrower ? '-> ' + this.props.book.borrower : ''}
                     </Text>
                 </View>
                 <View style={styles.secondRow}>

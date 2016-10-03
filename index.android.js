@@ -35,7 +35,7 @@ class MicoseMobile extends Component {
 
     fetchBooks() {
         fetch('https://www.micose.pierrepironin.fr/api/books/')
-        // fetch('http://192.168.0.22:4000/api/books/')
+        // fetch('http://192.168.0.12:4000/api/books/')
             .then((response) => {
                 return response.json();
             })
