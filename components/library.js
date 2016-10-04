@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import moment from 'moment';
 
 import Book from './book';
 
@@ -34,10 +33,16 @@ class Library extends Component {
                 return response.json();
             })
             .then((response) => {
-                // Sort by update date
+                // Sort by title and subtitle
                 return response.data.sort((book1, book2) => {
-                    moment(book1.updateDate).isBefore(book2.updateDate)
-                }).reverse();
+                    if (book1.title < book2.title) {
+                        return -1;
+                    } else if (book2.title > book1.title) {
+                        return 1;
+                    } else {
+                        return book1.subtitle < book2.subtitle ? -1 : 1;
+                    }
+                });
             })
             .then((books) => {
                 this.setState({
