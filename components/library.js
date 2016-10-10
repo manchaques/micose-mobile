@@ -64,7 +64,7 @@ class Library extends Component {
             <View style={{flex: 1}}>
                 <Spinner visible={this.state.loading}/>
                 <ListView
-                    style={styles.container}
+                    style={styles.books}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) => <Book book={rowData} />}
                 />
@@ -74,9 +74,8 @@ class Library extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 20,
+    books: {
+        flex: 1
     },
 });
 
