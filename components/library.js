@@ -34,6 +34,9 @@ class Library extends Component {
             })
             .then((response) => {
                 // Sort by title and subtitle
+                if (!response.data) {
+                    return [];
+                }
                 return response.data.sort((book1, book2) => {
                     if (book1.title < book2.title) {
                         return -1;

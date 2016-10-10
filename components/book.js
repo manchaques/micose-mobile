@@ -3,6 +3,40 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 
 import moment from 'moment';
 
+class Book extends Component {
+    constructor() {
+        super()
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.thumbnail}>
+                    <Image source={{uri: this.props.book.cover_url}} style={styles.cover}/>
+                </View>
+                <View style={styles.description}>
+                    <View style={styles.firstRow}>
+                        <Text style={styles.title}>
+                            {this.props.book.title}
+                        </Text>
+                        <Text style={styles.owner}>
+                            {this.props.book.owner.pseudo} {this.props.book.borrower ? '-> ' + this.props.book.borrower.pseudo : ''}
+                        </Text>
+                    </View>
+                    <View style={styles.secondRow}>
+                        <Text style={styles.subtitle}>
+                            {this.props.book.subtitle}
+                        </Text>
+                        <Text style={styles.updateDate}>
+                            {moment(this.props.book.updateDate).format('ll')}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -54,40 +88,5 @@ const styles = StyleSheet.create({
         textAlign: 'right'
     }
 });
-
-
-class Book extends Component {
-    constructor() {
-        super()
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.thumbnail}>
-                    <Image source={{uri: this.props.book.cover_url}} style={styles.cover}/>
-                </View>
-                <View style={styles.description}>
-                    <View style={styles.firstRow}>
-                        <Text style={styles.title}>
-                            {this.props.book.title}
-                        </Text>
-                        <Text style={styles.owner}>
-                            {this.props.book.owner.pseudo} {this.props.book.borrower ? '-> ' + this.props.book.borrower.pseudo : ''}
-                        </Text>
-                    </View>
-                    <View style={styles.secondRow}>
-                        <Text style={styles.subtitle}>
-                            {this.props.book.subtitle}
-                        </Text>
-                        <Text style={styles.updateDate}>
-                            {moment(this.props.book.updateDate).format('ll')}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-}
 
 export default Book;
