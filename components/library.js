@@ -3,7 +3,8 @@ import {
     AppRegistry,
     View,
     ListView,
-    StyleSheet
+    StyleSheet,
+    RefreshControl
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -18,7 +19,8 @@ class Library extends Component {
 
         this.state = {
             loading: true,
-            dataSource: ds.cloneWithRows([])
+            dataSource: ds.cloneWithRows([]),
+            isRefreshing: false
         }
     }
 
@@ -48,8 +50,18 @@ class Library extends Component {
                 });
             })
             .then((books) => {
+                // Managed 1st loading and refreshing
+                if (this.state.loading) {
+                    this.setState({
+                        loading: false
+                    })
+                } else if (this.state.isRefreshing) {
+                    this.setState({
+                        isRefreshing: false
+                    })
+                }
+                // Load books
                 this.setState({
-                    loading: false,
                     dataSource: ds.cloneWithRows(books)
                 });
             })
@@ -57,6 +69,11 @@ class Library extends Component {
                 console.warn(error);
             })
             .done();
+    }
+
+    onRefresh() {
+        this.setState({isRefreshing: true});
+        this.fetchBooks();
     }
 
     render() {
@@ -67,6 +84,12 @@ class Library extends Component {
                     style={styles.books}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) => <Book book={rowData} />}
+                    refreshControl = {
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                        />
+                    }
                 />
             </View>
         );
