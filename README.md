@@ -1,8 +1,9 @@
-# micose-mobile
+# Mobile version of Micose
 The new reference for Comics' bookshelves.
 
-# Tips and tricks
-## Generate the signed apk
+# Contributing
+## Tips and tricks
+### Generate the signed apk
 ```
 cd android && ./gradlew assembleRelease
 ```
