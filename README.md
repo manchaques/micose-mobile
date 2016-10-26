@@ -7,3 +7,4 @@ The new reference for Comics' bookshelves.
 ```
 cd android && ./gradlew assembleRelease
 ```
+The .apk is generated in `android/app/build/outputs/apk/` and named `app-release.apk`
