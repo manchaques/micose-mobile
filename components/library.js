@@ -3,6 +3,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import TabBar from './tabBar';
 import BooksView from './booksView';
+import UsersView from './usersView';
 
 
 class Library extends Component {
@@ -17,7 +18,7 @@ class Library extends Component {
                 renderTabBar={() => <TabBar/>}
             >
                 <BooksView tabLabel="all-inclusive"/>
-                <BooksView tabLabel="group"/>
+                <UsersView tabLabel="group"/>
             </ScrollableTabView>
         );
     }
