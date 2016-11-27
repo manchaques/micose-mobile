@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     cover: {
-        flex: 1,
-        // resizeMode: 'cover',
+        resizeMode: 'cover',
         width: 32,
         height: 50
 
