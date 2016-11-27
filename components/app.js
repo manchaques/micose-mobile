@@ -2,16 +2,12 @@ import React, {Component} from 'react';
 import {
     View,
     StyleSheet,
-    DrawerLayoutAndroid,
-    Text,
-    Image,
-    TouchableNativeFeedback
+    DrawerLayoutAndroid
 } from 'react-native';
 
-import Hr from 'react-native-hr';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
+import Drawer from './drawer';
 import Library from './library';
 import SearchBar from './searchBar';
 
@@ -28,9 +24,7 @@ class App extends Component {
         this._setupGoogleSignin();
     }
 
-
     render() {
-
         if (!this.state.user) {
             return (
                 <View style={styles.googleSigninButton}>
@@ -47,36 +41,7 @@ class App extends Component {
 
         if (this.state.user) {
             let navigationView = (
-                <View style={styles.drawer}>
-                    <View style={styles.user}>
-                        <View style={styles.thumbnailUser}>
-                            <Image source={{uri: this.state.user.photo}} style={styles.userPhoto}/>
-                        </View>
-                        <Text style={styles.userName}>
-                            {this.state.user.name}
-                        </Text>
-                        <Hr lineColor='gainsboro' styles={styles.separator}/>
-                    </View>
-
-                    <View style={styles.actions}>
-                        <TouchableNativeFeedback
-                            onPress={this._signOut.bind(this)}
-                            background={TouchableNativeFeedback.SelectableBackgroundBorderless()}>
-                            <View style={styles.logoutContainer}>
-                                <Icon
-                                    name="exit-to-app"
-                                    size={20}
-                                    style={styles.logoutButton}
-                                />
-                                <Text style={styles.logoutText}>Logout</Text>
-                            </View>
-                        </TouchableNativeFeedback>
-                    </View>
-
-                    <View style={styles.footer}>
-                        <Text>Manchaques Team - 2016</Text>
-                    </View>
-                </View>
+                <Drawer user={this.state.user} signOut={this._signOut.bind(this)}/>
             );
 
             return (
@@ -137,51 +102,6 @@ const styles = StyleSheet.create({
     books: {
         flex: 10,
         marginTop: 20,
-    },
-
-    drawer: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
-    separator: {
-        height: 3
-    },
-
-    user: {
-        flex: 2,
-        paddingTop: 5,
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    thumbnailUser: {},
-    userName: {},
-    userPhoto: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        resizeMode: 'cover'
-    },
-
-    actions: {
-        flex: 10
-    },
-    logoutContainer: {
-        flex: 1,
-        flexDirection: 'row'
-    },
-    logoutButton: {
-        flex: 1,
-        paddingTop: 2,
-        paddingLeft: 10,
-    },
-    logoutText: {
-        flex: 1,
-        alignItems: 'flex-start'
-    },
-
-    footer: {
-        flex: 1,
-        alignItems: 'center'
     },
 
     googleSigninButton: {
