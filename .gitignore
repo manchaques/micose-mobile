@@ -42,3 +42,6 @@ android/keystores/debug.keystore
 
 # Android release
 android/app/micose.keystore
+
+# Google Services file
+android/app/google-services.json
