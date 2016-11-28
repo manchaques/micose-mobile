@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import _ from 'lodash';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Drawer from './drawer';
 import Library from './library';
@@ -16,7 +18,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            loading: false
         };
     }
 
@@ -26,22 +29,26 @@ class App extends Component {
 
     render() {
         if (!this.state.user) {
-            return (
-                <View style={styles.googleSigninButton}>
-                    <GoogleSigninButton
-                        style={{width: 312, height: 48}}
-                        color={GoogleSigninButton.Color.Light}
-                        size={GoogleSigninButton.Size.Wide}
-                        onPress={() => {
-                            this._signIn();
-                        }}/>
-                </View>
-            );
-        }
-
-        if (this.state.user) {
+            if (this.state.loading) {
+                return (
+                    <Spinner visible={!this.state.loaded}/>
+                );
+            } else {
+                return (
+                    <View style={styles.googleSigninButton}>
+                        <GoogleSigninButton
+                            style={{width: 312, height: 48}}
+                            color={GoogleSigninButton.Color.Light}
+                            size={GoogleSigninButton.Size.Wide}
+                            onPress={() => {
+                                this._signIn();
+                            }}/>
+                    </View>
+                );
+            }
+        } else {
             let navigationView = (
-                <Drawer user={this.state.user} signOut={this._signOut.bind(this)}/>
+                <Drawer user={this.state.user.googleProfile} signOut={this._signOut.bind(this)}/>
             );
 
             return (
@@ -66,7 +73,7 @@ class App extends Component {
             await GoogleSignin.configure();
 
             const user = await GoogleSignin.currentUserAsync();
-            this.setState({user});
+            this.fetchUser(user);
         }
         catch (err) {
             console.log("Play services error", err.code, err.message);
@@ -76,8 +83,7 @@ class App extends Component {
     _signIn() {
         GoogleSignin.signIn()
             .then((user) => {
-                console.log(user);
-                this.setState({user: user});
+                this.fetchUser(user);
             })
             .catch((err) => {
                 console.log('WRONG SIGNIN', err);
@@ -89,7 +95,37 @@ class App extends Component {
         GoogleSignin.revokeAccess()
             .then(() => GoogleSignin.signOut())
             .then(() => {
-                this.setState({user: null});
+                this.setState({user: null, loaded: false});
+            })
+            .done();
+    }
+
+    fetchUser(googleUser) {
+        this.setState({loading: true});
+
+        fetch('https://www.micose.pierrepironin.fr/api/user/find?pseudo=' + googleUser.name.replace(' ', '_'))
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                if (!response.data) {
+                    // TODO create user
+                }
+                return response.data;
+            })
+            .then((user) => {
+                console.log("Micose user fetched !");
+                let completeUser = user;
+                _.extend(completeUser, {
+                    googleProfile: googleUser
+                });
+                this.setState({
+                    user: completeUser,
+                    loading: false
+                });
+            })
+            .catch((error) => {
+                console.warn(error);
             })
             .done();
     }
