@@ -48,7 +48,11 @@ class App extends Component {
             }
         } else {
             let navigationView = (
-                <Drawer user={this.state.user.googleProfile} signOut={this._signOut.bind(this)}/>
+                <Drawer
+                    user={this.state.user}
+                    signOut={this._signOut.bind(this)}
+                    onCommunityChanged={this._communityChanged.bind(this)}
+                />
             );
 
             return (
@@ -58,7 +62,9 @@ class App extends Component {
                     renderNavigationView={() => navigationView}>
                     <View style={{flex: 1}}>
                         <Library
-                            style={styles.books}/>
+                            style={styles.books}
+                            community={this.state.community}
+                        />
                         <SearchBar
                             style={styles.searchBar}/>
                     </View>
@@ -95,7 +101,11 @@ class App extends Component {
         GoogleSignin.revokeAccess()
             .then(() => GoogleSignin.signOut())
             .then(() => {
-                this.setState({user: null, loaded: false});
+                this.setState({
+                    user: null,
+                    loaded: false,
+                    community: null
+                });
             })
             .done();
     }
@@ -121,13 +131,20 @@ class App extends Component {
                 });
                 this.setState({
                     user: completeUser,
-                    loading: false
+                    loading: false,
+                    community: completeUser.communities.length ? completeUser.communities[0].id : null
                 });
             })
             .catch((error) => {
                 console.warn(error);
             })
             .done();
+    }
+
+    _communityChanged(community) {
+        this.setState({
+            community: community
+        })
     }
 }
 

@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     Image,
-    TouchableNativeFeedback
+    TouchableNativeFeedback,
+    Picker
 } from 'react-native';
 
 import Hr from 'react-native-hr';
@@ -13,6 +14,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 class Drawer extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            selectedCommunity: this.props.community ? this.props.community.id : null
+        }
     }
 
     render() {
@@ -21,15 +26,33 @@ class Drawer extends Component {
 
                 <View style={styles.user}>
                     <View style={styles.thumbnailUser}>
-                        <Image source={{uri: this.props.user.photo}} style={styles.userPhoto}/>
+                        <Image source={{uri: this.props.user.googleProfile.photo}} style={styles.userPhoto}/>
                     </View>
                     <Text style={styles.userName}>
-                        {this.props.user.name}
+                        {this.props.user.googleProfile.name}
                     </Text>
                     <Hr lineColor='gainsboro' styles={styles.separator}/>
                 </View>
 
                 <View style={styles.actions}>
+                    <Text style={{fontWeight: 'bold'}}>Current community</Text>
+                    <Picker
+                        selectedValue={this.state.selectedCommunity}
+                        onValueChange={(community) => {
+                            this.setState({selectedCommunity: community});
+                            this.props.onCommunityChanged(community);
+                        }}
+                    >
+                        { this.props.user.communities.map((community, index) => {
+                            return <Picker.Item
+                                key={index}
+                                label={community.name}
+                                value={community.id}/>
+                        })}
+                    </Picker>
+                </View>
+
+                <View style={styles.logout}>
                     <TouchableNativeFeedback
                         onPress={this.props.signOut}
                         background={TouchableNativeFeedback.SelectableBackgroundBorderless()}>
@@ -42,6 +65,7 @@ class Drawer extends Component {
                             <Text style={styles.logoutText}>Logout</Text>
                         </View>
                     </TouchableNativeFeedback>
+                    <Hr lineColor='gainsboro' styles={styles.separator}/>
                 </View>
 
                 <View style={styles.footer}>
@@ -78,6 +102,10 @@ const styles = StyleSheet.create({
 
     actions: {
         flex: 10
+    },
+    logout: {
+        flex: 1,
+        justifyContent: 'flex-end'
     },
     logoutContainer: {
         flex: 1,

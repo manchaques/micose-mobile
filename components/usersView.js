@@ -29,8 +29,7 @@ class UsersView extends Component {
     }
 
     fetchUsers() {
-        fetch('https://www.micose.pierrepironin.fr/api/users/')
-        // fetch('http://192.168.0.12:4000/api/books/')
+        fetch('https://www.micose.pierrepironin.fr/api/user/find?community=' + this.props.community)
             .then((response) => {
                 return response.json();
             })

@@ -28,8 +28,17 @@ class BooksView extends Component {
         this.fetchBooks();
     }
 
+    componentDidUpdate() {
+        this.fetchBooks();
+    }
+
     fetchBooks() {
-        fetch('https://www.micose.pierrepironin.fr/api/books/')
+        if (!this.props.community) {
+            this._loadBooks([]);
+            return;
+        }
+
+        fetch('https://www.micose.pierrepironin.fr/api/book/find?community=' + this.props.community)
             .then((response) => {
                 return response.json();
             })
@@ -49,20 +58,7 @@ class BooksView extends Component {
                 });
             })
             .then((books) => {
-                // Managed 1st loading and refreshing
-                if (this.state.loading) {
-                    this.setState({
-                        loading: false
-                    })
-                } else if (this.state.isRefreshing) {
-                    this.setState({
-                        isRefreshing: false
-                    })
-                }
-                // Load books
-                this.setState({
-                    dataSource: ds.cloneWithRows(books)
-                });
+                this._loadBooks(books);
             })
             .catch((error) => {
                 console.warn(error);
@@ -92,6 +88,23 @@ class BooksView extends Component {
                 />
             </View>
         );
+    }
+
+    _loadBooks(books) {
+        // Managed 1st loading and refreshing
+        if (this.state.loading) {
+            this.setState({
+                loading: false
+            })
+        } else if (this.state.isRefreshing) {
+            this.setState({
+                isRefreshing: false
+            })
+        }
+        // Load books
+        this.setState({
+            dataSource: ds.cloneWithRows(books)
+        });
     }
 }
 
