@@ -17,7 +17,7 @@ class Library extends Component {
                 initialPage={0}
                 renderTabBar={() => <TabBar/>}
             >
-                <BooksView community={this.props.community} tabLabel="all-inclusive"/>
+                <BooksView community={this.props.community} tabLabel="library-books"/>
                 <UsersView community={this.props.community} tabLabel="group"/>
             </ScrollableTabView>
         );
