@@ -28,9 +28,9 @@ class BooksView extends Component {
         this.fetchBooks();
     }
 
-    componentDidUpdate() {
-        this.fetchBooks();
-    }
+    // componentDidUpdate() {
+    //     this.fetchBooks();
+    // }
 
     fetchBooks() {
         if (!this.props.community) {

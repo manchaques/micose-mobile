@@ -28,9 +28,9 @@ class UsersView extends Component {
         this.fetchUsers();
     }
 
-    componentDidUpdate() {
-        this.fetchUsers();
-    }
+    // componentDidUpdate() {
+    //     this.fetchUsers();
+    // }
 
     fetchUsers() {
         fetch('https://www.micose.pierrepironin.fr/api/user/find?community=' + this.props.community)
