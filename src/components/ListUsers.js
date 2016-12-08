@@ -13,7 +13,7 @@ import User from './User';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.pseudo !== r2.pseudo});
 
-const Users = ({loading, users, isRefreshing, onRefresh}) => (
+const Users = ({community, loading, users, isRefreshing, onRefresh}) => (
     <View style={{flex: 1}}>
         <Spinner visible={loading}/>
         <ListView
@@ -23,7 +23,7 @@ const Users = ({loading, users, isRefreshing, onRefresh}) => (
             refreshControl={
                 <RefreshControl
                     refreshing={isRefreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={() => onRefresh(community)}
                 />
             }
         />
@@ -31,6 +31,7 @@ const Users = ({loading, users, isRefreshing, onRefresh}) => (
 );
 
 Users.propTypes = {
+    community: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
     users: PropTypes.arrayOf(User).isRequired,
     isRefreshing: PropTypes.bool.isRequired,

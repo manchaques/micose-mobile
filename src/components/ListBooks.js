@@ -13,7 +13,7 @@ import Book from './Book';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.title !== r2.title});
 
-const Books = ({loading, books, isRefreshing, onRefresh}) => (
+const Books = ({community, loading, books, isRefreshing, onRefresh}) => (
     <View style={{flex: 1}}>
         <Spinner visible={loading}/>
         <ListView
@@ -23,7 +23,7 @@ const Books = ({loading, books, isRefreshing, onRefresh}) => (
             refreshControl = {
                 <RefreshControl
                     refreshing={isRefreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={() => onRefresh(community)}
                 />
             }
         />
@@ -31,6 +31,7 @@ const Books = ({loading, books, isRefreshing, onRefresh}) => (
 );
 
 Books.propTypes = {
+    community: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
     books: PropTypes.arrayOf(Book).isRequired,
     isRefreshing: PropTypes.bool.isRequired,

@@ -25,10 +25,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onRefresh: () => {
-            dispatch(fetchBooks(ownProps.community))
+        onRefresh: (community) => {
+            dispatch(fetchBooks(community))
         }
     };
 };
