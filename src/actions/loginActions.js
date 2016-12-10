@@ -74,7 +74,6 @@ function _fetchUser(googleUser) {
             return response.data;
         })
         .then((user) => {
-            console.log("Micose user fetched !");
             let completeUser = user;
             _.extend(completeUser, {
                 googleProfile: googleUser

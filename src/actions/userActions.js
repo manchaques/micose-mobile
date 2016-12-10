@@ -19,7 +19,6 @@ export function fetchUsers(community) {
     return function (dispatch) {
         dispatch(requestUsers(community));
 
-        console.log("community : "  + community);
         return fetch('https://www.micose.pierrepironin.fr/api/user/find?community=' + community)
             .then(response => response.json())
             .then(json => {

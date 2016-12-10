@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import TabBar from '../tabBar';
+import TabBar from './TabBar';
 import CommunityBooks from '../containers/CommunityBooks';
 import CommunityUsers from '../containers/CommunityUsers';
 

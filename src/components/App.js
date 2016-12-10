@@ -7,7 +7,7 @@ import CommunityHome from '../containers/CommunityHome';
 import {trySignInGoogle} from '../actions/loginActions';
 
 const scenes = Actions.create(
-    <Scene key="root" hideNavBar={true}>
+    <Scene key="root" hideNavBar={true} >
         <Scene key="login" component={GoogleLogin} title="Login" initial={true} type="modal"/>
         <Scene key="home" component={CommunityHome} title="Home"/>
     </Scene>
