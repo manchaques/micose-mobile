@@ -1,26 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 import {View, StyleSheet, DrawerLayoutAndroid} from 'react-native';
-import {connect} from 'react-redux';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Library from './Library';
 import SearchBar from './SearchBar';
 import MainDrawer from '../containers/MainDrawer';
-import {fetchBooks} from '../actions/bookActions';
-import {fetchUsers} from '../actions/userActions';
 
 class Home extends Component {
     static propTypes = {
-        dispatch: PropTypes.func,
         loading: PropTypes.bool.isRequired,
         user: PropTypes.object.isRequired,
-        community: PropTypes.number.isRequired
+        community: PropTypes.number.isRequired,
+        onMount: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.dispatch(fetchBooks(this.props.community));
-        this.props.dispatch(fetchUsers(this.props.community));
+        this.props.onMount(this.props.community)
     }
 
     render() {
@@ -55,4 +51,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect()(Home);
+export default Home;

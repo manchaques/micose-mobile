@@ -4,7 +4,7 @@ import {
     View
 } from 'react-native';
 
-import App from './src/components/App';
+import App from './src/components/MainRouter';
 
 class MicoseMobile extends Component {
     render() {

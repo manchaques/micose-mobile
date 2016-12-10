@@ -9,7 +9,7 @@ import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 
 import reducers from './src/reducers/reducers';
-import App from './src/components/App';
+import App from './src/containers/App';
 
 let store = createStore(
     reducers,
