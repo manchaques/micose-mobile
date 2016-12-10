@@ -1,6 +1,7 @@
 import {
     REQUEST_LOGIN, RECEIVE_LOGIN,
-    REQUEST_LOGOUT, RECEIVE_LOGOUT
+    REQUEST_LOGOUT, RECEIVE_LOGOUT,
+    FAIL_TRY_LOGIN
 } from '../actions/loginActions';
 
 export function login(state = {
@@ -24,6 +25,12 @@ export function login(state = {
                 loading: true
             });
         case RECEIVE_LOGOUT:
+            return Object.assign({}, state, {
+                loading: false,
+                user: null,
+                community: null
+            });
+        case FAIL_TRY_LOGIN:
             return Object.assign({}, state, {
                 loading: false,
                 user: null,

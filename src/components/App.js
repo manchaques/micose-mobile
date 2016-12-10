@@ -4,7 +4,6 @@ import {Actions, Scene, Router, Reducer} from 'react-native-router-flux';
 
 import GoogleLogin from '../containers/GoogleLogin';
 import CommunityHome from '../containers/CommunityHome';
-import {trySignInGoogle} from '../actions/loginActions';
 
 const scenes = Actions.create(
     <Scene key="root" hideNavBar={true} >
@@ -17,10 +16,6 @@ class App extends Component {
     static propTypes = {
         dispatch: PropTypes.func,
     };
-
-    componentDidMount() {
-        this.props.dispatch(trySignInGoogle);
-    }
 
     reducerCreate(params) {
         const defaultReducer = Reducer(params);

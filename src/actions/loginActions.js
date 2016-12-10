@@ -16,6 +16,13 @@ export function receiveLogin(user) {
     }
 }
 
+export const FAIL_TRY_LOGIN = 'FAIL_TRY_LOGIN';
+export function failTryLogin() {
+    return {
+        type: FAIL_TRY_LOGIN
+    }
+}
+
 export function signInGoogle() {
     return function (dispatch) {
         dispatch(requestLogin());
@@ -55,9 +62,6 @@ export function trySignInGoogle() {
             })
             .then((completeUser) => {
                 dispatch(receiveLogin(completeUser))
-            })
-            .catch((err) => {
-                console.log("Play services error", err.code, err.message);
             })
     }
 }
@@ -104,10 +108,11 @@ export function signOutGoogle() {
         dispatch(requestLogout());
 
         return GoogleSignin.revokeAccess()
-            .then(() => GoogleSignin.signOut())
+            .then(() => {
+                return GoogleSignin.signOut()
+            })
             .then(() => {
                 dispatch(receiveLogout())
             })
-            .done();
     }
 }

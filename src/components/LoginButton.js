@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import {
     View,
     StyleSheet
@@ -7,22 +8,32 @@ import {
 import {GoogleSigninButton} from 'react-native-google-signin';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const LoginButton = ({loading, onPress}) => (
-    <View style={styles.googleSigninButton}>
-        <Spinner visible={loading}/>
-        <GoogleSigninButton
-            style={{width: 312, height: 48}}
-            color={GoogleSigninButton.Color.Light}
-            size={GoogleSigninButton.Size.Wide}
-            onPress={onPress}
-        />
-    </View>
-);
 
-LoginButton.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    onPress: PropTypes.func.isRequired
-};
+class LoginButton extends Component {
+    static propTypes = {
+        loading: PropTypes.bool.isRequired,
+        onMount: PropTypes.func.isRequired,
+        onPress: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        this.props.onMount();
+    }
+
+    render() {
+        return (
+            <View style={styles.googleSigninButton}>
+                <Spinner visible={this.props.loading}/>
+                <GoogleSigninButton
+                    style={{width: 312, height: 48}}
+                    color={GoogleSigninButton.Color.Light}
+                    size={GoogleSigninButton.Size.Wide}
+                    onPress={this.props.onPress}
+                />
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     googleSigninButton: {

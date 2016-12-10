@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 
 import LoginButton from '../components/LoginButton';
-import {signInGoogle} from '../actions/loginActions';
+import {signInGoogle, trySignInGoogle, failTryLogin} from '../actions/loginActions';
 
 const mapStateToProps = (state) => {
     return {
@@ -14,7 +14,18 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onPress: () => {
             dispatch(signInGoogle())
-                .then(() => {Actions.home()})
+                .then(() => {
+                    Actions.home()
+                })
+        },
+        onMount: () => {
+            dispatch(trySignInGoogle())
+                .then(() => {
+                    Actions.home()
+                })
+                .catch(() => {
+                    dispatch(failTryLogin())
+                })
         }
     };
 };

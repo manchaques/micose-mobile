@@ -1,4 +1,5 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {Actions} from 'react-native-router-flux'
 
 import Drawer from '../components/Drawer';
 
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSignOut: () => {
             dispatch(signOutGoogle())
+                .then(() => {
+                    Actions.login()
+                })
         },
         onCommunityChanged: (community) => {
             dispatch(changeCommunity(community));
