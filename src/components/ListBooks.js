@@ -4,36 +4,51 @@ import {
     View,
     ListView,
     StyleSheet,
-    RefreshControl
+    RefreshControl,
+    Text
 } from 'react-native';
+import Hr from 'react-native-hr';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Book from './Book';
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.title !== r2.title});
+const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => (r1.title !== r2.title) && (r1.subtitle !== r2.subtitle),
+    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+});
 
-const Books = ({community, loading, books, isRefreshing, onRefresh}) => (
-    <View style={{flex: 1}}>
-        <Spinner visible={loading}/>
-        <ListView
-            style={styles.books}
-            dataSource={ds.cloneWithRows(books)}
-            renderRow={(rowData) => <Book book={rowData} />}
-            refreshControl = {
-                <RefreshControl
-                    refreshing={isRefreshing}
-                    onRefresh={() => onRefresh(community)}
+const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
+    if (community) {
+        return (
+            <View style={{flex: 1}}>
+                <Spinner visible={loading}/>
+                <ListView
+                    style={styles.books}
+                    dataSource={ds.cloneWithRowsAndSections(books)}
+                    renderRow={(rowData) => <Book book={rowData}/>}
+                    renderSectionHeader={(sectionData, firstLetter) =>
+                        <View>
+                            <Text style={{fontWeight: "700", textAlign: 'center'}}>{firstLetter}</Text>
+                            <Hr lineColor='#b3b3b3'/>
+                        </View>
+                    }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={() => onRefresh(community)}
+                        />
+                    }
                 />
-            }
-        />
-    </View>
-);
+            </View>
+        )
+    }
+};
 
 Books.propTypes = {
     community: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
-    books: PropTypes.arrayOf(Book).isRequired,
+    // books: PropTypes.arrayOf(Book).isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     onRefresh: PropTypes.func.isRequired
 };

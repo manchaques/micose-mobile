@@ -1,19 +1,52 @@
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
+
 import ListBooks from '../components/ListBooks';
 import {fetchBooks} from '../actions/bookActions';
 
 
 const getCommunityBooks = (books) => {
-    return books.sort((book1, book2) => {
-        if (book1.title < book2.title) {
-            return -1;
-        } else if (book2.title > book1.title) {
-            return 1;
-        } else {
-            return book1.subtitle < book2.subtitle ? -1 : 1;
+    let booksByFirstLetter = {};
+
+    // Expand [books] in {firstLetter, [books]}
+    books.forEach((book) => {
+        let firstBookLetter = book.title.charAt(0).toUpperCase();
+        if (!firstBookLetter) {
+            return;
         }
+        if (!booksByFirstLetter[firstBookLetter]) {
+            booksByFirstLetter[firstBookLetter] = [];
+        }
+        booksByFirstLetter[firstBookLetter].push(book);
     });
+
+
+    let booksByFirstLetterOrdered = {};
+
+    // Sort by first letter
+    Object.keys(booksByFirstLetter)
+        .sort()
+        .forEach((firstLetter) => {
+            booksByFirstLetterOrdered[firstLetter] = booksByFirstLetter[firstLetter];
+        });
+
+    // Sort each [books]
+    _.forOwn(booksByFirstLetter, (books, firstLetter) => {
+        booksByFirstLetterOrdered[firstLetter] = books.sort((book1, book2) => {
+            if (book1.title < book2.title) {
+                return -1;
+            } else if (book1.title > book2.title) {
+                return 1;
+            } else {
+                return book1.subtitle < book2.subtitle ? -1 : 1;
+            }
+        });
+    });
+
+
+
+    return booksByFirstLetterOrdered;
 };
 
 const mapStateToProps = (state) => {
