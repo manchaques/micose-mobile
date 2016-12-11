@@ -3,31 +3,35 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 
 import moment from 'moment';
 
-const Book = ({book}) => (
-    <View style={styles.container}>
-        <View style={styles.thumbnail}>
-            <Image source={{uri: book.cover_url}} style={styles.cover}/>
-        </View>
-        <View style={styles.description}>
-            <View style={styles.firstRow}>
-                <Text style={styles.title}>
-                    {book.title}
-                </Text>
-                <Text style={styles.owner}>
-                    {book.owner.pseudo} {book.borrower ? '-> ' + book.borrower.pseudo : ''}
-                </Text>
+const Book = ({book}) => {
+    if (book) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.thumbnail}>
+                    <Image source={{uri: book.cover_url}} style={styles.cover}/>
+                </View>
+                <View style={styles.description}>
+                    <View style={styles.firstRow}>
+                        <Text style={styles.title}>
+                            {book.title}
+                        </Text>
+                        <Text style={styles.owner}>
+                            {book.owner.pseudo} {book.borrower ? '-> ' + book.borrower.pseudo : ''}
+                        </Text>
+                    </View>
+                    <View style={styles.secondRow}>
+                        <Text style={styles.subtitle}>
+                            {book.subtitle}
+                        </Text>
+                        <Text style={styles.updateDate}>
+                            {moment(book.updateDate).format('ll')}
+                        </Text>
+                    </View>
+                </View>
             </View>
-            <View style={styles.secondRow}>
-                <Text style={styles.subtitle}>
-                    {book.subtitle}
-                </Text>
-                <Text style={styles.updateDate}>
-                    {moment(book.updateDate).format('ll')}
-                </Text>
-            </View>
-        </View>
-    </View>
-);
+        )
+    }
+};
 
 Book.propTypes = {
     book: PropTypes.shape({
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
         padding: 3,
         flexDirection: 'row'
     },
-    cover: {
+    cover: {
         resizeMode: 'cover',
         width: 32,
         height: 50

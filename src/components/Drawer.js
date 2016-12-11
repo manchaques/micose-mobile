@@ -11,57 +11,60 @@ import {
 import Hr from 'react-native-hr';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => (
-    <View style={styles.drawer}>
+const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => {
+    if (user) {
+        return (   <View style={styles.drawer}>
 
-        <View style={styles.user}>
-            <View style={styles.thumbnailUser}>
-                <Image source={{uri: user.googleProfile.photo}} style={styles.userPhoto}/>
-            </View>
-            <Text style={styles.userName}>
-                {user.googleProfile.name}
-            </Text>
-            <Hr lineColor='gainsboro' styles={styles.separator}/>
-        </View>
-
-        <View style={styles.actions}>
-            <Text style={{fontWeight: 'bold'}}>Current community</Text>
-            <Picker
-                selectedValue={selectedCommunity}
-                onValueChange={(community) => {
-                    onCommunityChanged(community);
-                }}
-            >
-                { user.communities.map((community, index) => {
-                    return <Picker.Item
-                        key={index}
-                        label={community.name}
-                        value={community.id}/>
-                })}
-            </Picker>
-        </View>
-
-        <View style={styles.logout}>
-            <TouchableNativeFeedback
-                onPress={onSignOut}
-                background={TouchableNativeFeedback.SelectableBackgroundBorderless()}>
-                <View style={styles.logoutContainer}>
-                    <Icon
-                        name="exit-to-app"
-                        size={20}
-                        style={styles.logoutButton}
-                    />
-                    <Text style={styles.logoutText}>Logout</Text>
+                <View style={styles.user}>
+                    <View style={styles.thumbnailUser}>
+                        <Image source={{uri: user.googleProfile.photo}} style={styles.userPhoto}/>
+                    </View>
+                    <Text style={styles.userName}>
+                        {user.googleProfile.name}
+                    </Text>
+                    <Hr lineColor='gainsboro' styles={styles.separator}/>
                 </View>
-            </TouchableNativeFeedback>
-            <Hr lineColor='gainsboro' styles={styles.separator}/>
-        </View>
 
-        <View style={styles.footer}>
-            <Text>Manchaques Team - 2016</Text>
-        </View>
-    </View>
-);
+                <View style={styles.actions}>
+                    <Text style={{fontWeight: 'bold'}}>Current community</Text>
+                    <Picker
+                        selectedValue={selectedCommunity}
+                        onValueChange={(community) => {
+                            onCommunityChanged(community);
+                        }}
+                    >
+                        { user.communities.map((community, index) => {
+                            return <Picker.Item
+                                key={index}
+                                label={community.name}
+                                value={community.id}/>
+                        })}
+                    </Picker>
+                </View>
+
+                <View style={styles.logout}>
+                    <TouchableNativeFeedback
+                        onPress={onSignOut}
+                        background={TouchableNativeFeedback.SelectableBackgroundBorderless()}>
+                        <View style={styles.logoutContainer}>
+                            <Icon
+                                name="exit-to-app"
+                                size={20}
+                                style={styles.logoutButton}
+                            />
+                            <Text style={styles.logoutText}>Logout</Text>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <Hr lineColor='gainsboro' styles={styles.separator}/>
+                </View>
+
+                <View style={styles.footer}>
+                    <Text>Manchaques Team - 2016</Text>
+                </View>
+            </View>
+        )
+    }
+};
 
 Drawer.propTypes = {
     user: PropTypes.shape({
@@ -70,13 +73,13 @@ Drawer.propTypes = {
             name: PropTypes.string.isRequired,
         }),
         communities: PropTypes.array.isRequired
-            // Of({
-            // id: PropTypes.number.isRequired,
-            // name: PropTypes.string.isRequired
+        // Of({
+        // id: PropTypes.number.isRequired,
+        // name: PropTypes.string.isRequired
         // }).isRequired
     }),
     selectedCommunity: PropTypes.number.isRequired,
-    onCommunityChanged: PropTypes.func.isRequired,
+    onCommunityChanged: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired
 };
 

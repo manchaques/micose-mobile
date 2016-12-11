@@ -1,29 +1,37 @@
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Reducer} from 'react-native-router-flux';
+import {Actions, Scene, Router, Reducer} from 'react-native-router-flux';
 
-import MainRouter from '../components/MainRouter';
+import GoogleLogin from '../containers/GoogleLogin';
+import CommunityHome from '../containers/CommunityHome';
 
-const mapStateToProps = (state) => {
-    return {
+const scenes = Actions.create(
+    <Scene key="root" hideNavBar={true} >
+        <Scene key="login" component={GoogleLogin} title="Login" initial={true}/>
+        <Scene key="home" component={CommunityHome} title="Home"/>
+    </Scene>
+);
+
+class App extends Component {
+    static propTypes = {
+        dispatch: PropTypes.func,
     };
-};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        reducerCreate: (params) => {
-            const defaultReducer = Reducer(params);
-            return (state, action) => {
-                dispatch(action);
-                return defaultReducer(state, action);
-            };
-        }
-    };
-};
+    reducerCreate(params) {
+        const defaultReducer = Reducer(params);
+        return (state, action) => {
+            this.props.dispatch(action);
+            return defaultReducer(state, action);
+        };
+    }
 
+    render() {
+        return (
+            <Router
+                createReducer={this.reducerCreate.bind(this)}
+                scenes={scenes}/>
+        );
+    }
+}
 
-const App = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MainRouter);
-
-export default App;
+export default connect()(App);
