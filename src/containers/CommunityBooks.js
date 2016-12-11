@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import _ from 'lodash';
 
@@ -6,20 +6,28 @@ import ListBooks from '../components/ListBooks';
 import {fetchBooks} from '../actions/bookActions';
 
 
-const getCommunityBooks = (books) => {
+const getCommunityBooks = (books, filter) => {
     let booksByFirstLetter = {};
 
     // Expand [books] in {firstLetter, [books]}
-    books.forEach((book) => {
-        let firstBookLetter = book.title.charAt(0).toUpperCase();
-        if (!firstBookLetter) {
-            return;
-        }
-        if (!booksByFirstLetter[firstBookLetter]) {
-            booksByFirstLetter[firstBookLetter] = [];
-        }
-        booksByFirstLetter[firstBookLetter].push(book);
-    });
+    const lowerCaseFilter = filter.toLowerCase();
+    books
+        .filter((book) => {
+            return (book.title && book.title.toLowerCase().indexOf(lowerCaseFilter) > -1)
+                || (book.subtitle && book.subtitle.toLowerCase().indexOf(lowerCaseFilter) > -1)
+                || (book.owner && book.owner.pseudo.toLowerCase().indexOf(lowerCaseFilter) > -1)
+                || (book.borrower && book.borrower.pseudo.toLowerCase().indexOf(lowerCaseFilter) > -1);
+        })
+        .forEach((book) => {
+            let firstBookLetter = book.title.charAt(0).toUpperCase();
+            if (!firstBookLetter) {
+                return;
+            }
+            if (!booksByFirstLetter[firstBookLetter]) {
+                booksByFirstLetter[firstBookLetter] = [];
+            }
+            booksByFirstLetter[firstBookLetter].push(book);
+        });
 
 
     let booksByFirstLetterOrdered = {};
@@ -39,20 +47,18 @@ const getCommunityBooks = (books) => {
             } else if (book1.title > book2.title) {
                 return 1;
             } else {
-                return book1.subtitle < book2.subtitle ? -1 : 1;
+                return book1.subtitle < book2.subtitle ? -1 : 1;
             }
         });
     });
-
-
 
     return booksByFirstLetterOrdered;
 };
 
 const mapStateToProps = (state) => {
     return {
-        community: state.community,
-        books: getCommunityBooks(state.books.data),
+        community: state.community,
+        books: getCommunityBooks(state.books.data, state.books.filter),
         loading: state.books.loading,
         isRefreshing: state.books.isRefreshing,
     };

@@ -1,11 +1,13 @@
 import {
-    REQUEST_BOOKS, RECEIVE_BOOKS
+    REQUEST_BOOKS, RECEIVE_BOOKS,
+    FILTER_BOOKS
 } from '../actions/bookActions';
 
 export function books(state = {
     loading: false,
     isRefreshing: false,
-    data: []
+    data: [],
+    filter: ''
 }, action) {
     switch (action.type) {
         case REQUEST_BOOKS:
@@ -19,6 +21,11 @@ export function books(state = {
                 isRefreshing: false,
                 data: action.books
             });
+        case FILTER_BOOKS:
+            return Object.assign({}, state, {
+                filter: action.filter
+            });
+
         default:
             return state
     }

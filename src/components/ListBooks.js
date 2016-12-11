@@ -12,6 +12,7 @@ import Hr from 'react-native-hr';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Book from './Book';
+import BooksSearchBar from '../containers/BooksSearchBar';
 
 const ds = new ListView.DataSource({
     rowHasChanged: (r1, r2) => (r1.title !== r2.title) && (r1.subtitle !== r2.subtitle),
@@ -40,6 +41,7 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
                         />
                     }
                 />
+                <BooksSearchBar style={styles.searchBar} />
             </View>
         )
     }
@@ -57,6 +59,9 @@ const styles = StyleSheet.create({
     books: {
         flex: 1
     },
+    searchBar: {
+        flex: 1
+    }
 });
 
 export default Books;

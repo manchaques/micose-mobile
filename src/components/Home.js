@@ -4,7 +4,6 @@ import {View, StyleSheet, DrawerLayoutAndroid} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Library from './Library';
-import SearchBar from './SearchBar';
 import MainDrawer from '../containers/MainDrawer';
 
 class Home extends Component {
@@ -33,7 +32,6 @@ class Home extends Component {
                     renderNavigationView={() => NavigationView}>
                     <View style={{flex: 1}}>
                         <Library style={styles.books} />
-                        <SearchBar style={styles.searchBar} />
                     </View>
                 </DrawerLayoutAndroid>
             </View>
@@ -42,9 +40,6 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    searchBar: {
-        flex: 1
-    },
     books: {
         flex: 10,
         marginTop: 20,

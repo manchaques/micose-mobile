@@ -1,19 +1,17 @@
 import React, {PropTypes} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 
-const SearchBar = () => (
-    //<View style={styles.container}>
+const SearchBar = ({filter, onChangeText}) => (
     <TextInput
-        //style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-        //onChangeText={(text) => this.setState({text})}
-        //value={this.state.text}
+        onChangeText={onChangeText}
+        value={filter}
         placeholder="Search for a comic..."
     />
-//</View>
 );
 
 SearchBar.propTypes = {
-
+    filter: PropTypes.string,
+    onChangeText: PropTypes.func
 };
 
 export default SearchBar;

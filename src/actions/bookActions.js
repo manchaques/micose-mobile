@@ -26,3 +26,11 @@ export function fetchBooks(community) {
             );
     }
 }
+
+export const FILTER_BOOKS = 'FILTER_BOOKS';
+export function filterBooks(filter) {
+    return {
+        type: FILTER_BOOKS,
+        filter: filter
+    }
+}
