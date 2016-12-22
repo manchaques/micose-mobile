@@ -1,9 +1,10 @@
 import {connect} from 'react-redux';
+import {Actions} from 'react-native-router-flux';
 
 import _ from 'lodash';
 
 import ListBooks from '../components/ListBooks';
-import {fetchBooks} from '../actions/bookActions';
+import {fetchBooks, goBook} from '../actions/bookActions';
 
 
 const getCommunityBooks = (books, filter) => {
@@ -68,6 +69,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRefresh: (community) => {
             dispatch(fetchBooks(community))
+        },
+        onBookSelected: (book) => {
+            dispatch(goBook(book))
+                .then(() => {
+                    Actions.book();
+                })
         }
     };
 };

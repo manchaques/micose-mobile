@@ -19,7 +19,7 @@ const ds = new ListView.DataSource({
     sectionHeaderHasChanged: (s1, s2) => s1 !== s2
 });
 
-const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
+const Books = ({community, loading, books, isRefreshing, onRefresh, onBookSelected}) => {
     if (community) {
         return (
             <View style={{flex: 1}}>
@@ -27,7 +27,7 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
                 <ListView
                     style={styles.books}
                     dataSource={ds.cloneWithRowsAndSections(books)}
-                    renderRow={(rowData) => <BookPreview book={rowData}/>}
+                    renderRow={(rowData) => <BookPreview book={rowData} onSelected={onBookSelected}/>}
                     renderSectionHeader={(sectionData, firstLetter) =>
                         <View>
                             <Text style={{fontWeight: "700", textAlign: 'center'}}>{firstLetter}</Text>
@@ -54,9 +54,10 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
 Books.propTypes = {
     community: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
-    // books: PropTypes.arrayOf(BookPreview).isRequired,
+    books: PropTypes.object.isRequired,
     isRefreshing: PropTypes.bool.isRequired,
-    onRefresh: PropTypes.func.isRequired
+    onRefresh: PropTypes.func.isRequired,
+    onBookSelected: PropTypes.func
 };
 
 const styles = StyleSheet.create({

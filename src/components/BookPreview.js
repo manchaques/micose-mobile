@@ -1,33 +1,37 @@
 import React, {PropTypes} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableNativeFeedback} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const BookPreview = ({book}) => {
+const BookPreview = ({book, onSelected}) => {
     if (book) {
         let stateIcon = book.borrower ? "lock" : "lock-open";
         return (
-            <View style={styles.container}>
-                <View style={styles.thumbnail}>
-                    <Image source={{uri: book.cover_url}} style={styles.cover}/>
-                </View>
-                <View style={styles.description}>
-                    <View style={styles.firstRow}>
-                        <Text style={styles.title}>
-                            {book.title}
-                        </Text>
+            <TouchableNativeFeedback
+                onPress={() => onSelected(book)}
+                background={TouchableNativeFeedback.Ripple("light-gray", false)}>
+                <View style={styles.container}>
+                    <View style={styles.thumbnail}>
+                        <Image source={{uri: book.cover_url}} style={styles.cover}/>
                     </View>
-                    <View style={styles.secondRow}>
-                        <Text style={styles.subtitle}>
-                            {book.subtitle}
-                        </Text>
+                    <View style={styles.description}>
+                        <View style={styles.firstRow}>
+                            <Text style={styles.title}>
+                                {book.title}
+                            </Text>
+                        </View>
+                        <View style={styles.secondRow}>
+                            <Text style={styles.subtitle}>
+                                {book.subtitle}
+                            </Text>
+                        </View>
                     </View>
+                    <Icon
+                        name={stateIcon}
+                        size={30}
+                    />
                 </View>
-                <Icon
-                    name={stateIcon}
-                    size={30}
-                />
-            </View>
+            </TouchableNativeFeedback>
         )
     } else {
         return (
@@ -48,7 +52,8 @@ BookPreview.propTypes = {
         borrower: PropTypes.shape({
             pseudo: PropTypes.string.isRequired
         })
-    })
+    }),
+    onSelected: PropTypes.func
 };
 
 const styles = StyleSheet.create({

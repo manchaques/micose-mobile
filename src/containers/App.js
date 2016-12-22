@@ -4,11 +4,13 @@ import {Actions, Scene, Router, Reducer} from 'react-native-router-flux';
 
 import GoogleLogin from '../containers/GoogleLogin';
 import CommunityHome from '../containers/CommunityHome';
+import BookPage from '../containers/BookPage';
 
 const scenes = Actions.create(
     <Scene key="root" hideNavBar={true} >
         <Scene key="login" component={GoogleLogin} title="Login" initial={true}/>
         <Scene key="home" component={CommunityHome} title="Home"/>
+        <Scene key="book" component={BookPage} title="Book details"/>
     </Scene>
 );
 

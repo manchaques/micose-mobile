@@ -1,6 +1,7 @@
 import {
     REQUEST_BOOKS, RECEIVE_BOOKS,
-    FILTER_BOOKS
+    FILTER_BOOKS,
+    SET_CURRENT_BOOK
 } from '../actions/bookActions';
 
 export function books(state = {
@@ -24,6 +25,10 @@ export function books(state = {
         case FILTER_BOOKS:
             return Object.assign({}, state, {
                 filter: action.filter
+            });
+        case SET_CURRENT_BOOK:
+            return Object.assign({}, state, {
+                currentBook: action.book
             });
 
         default:

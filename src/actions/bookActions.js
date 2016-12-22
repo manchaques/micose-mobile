@@ -34,3 +34,21 @@ export function filterBooks(filter) {
         filter: filter
     }
 }
+
+export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';
+export function setCurrentBook(book) {
+    return {
+        type: SET_CURRENT_BOOK,
+        book: book
+    }
+}
+
+export const GO_BOOK = 'GO_BOOK';
+export function goBook(book) {
+    return function (dispatch) {
+        return new Promise((resolve) => {
+            dispatch(setCurrentBook(book));
+            resolve();
+        })
+    }
+}

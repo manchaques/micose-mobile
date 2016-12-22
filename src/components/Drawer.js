@@ -45,7 +45,7 @@ const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => {
                 <View style={styles.logout}>
                     <TouchableNativeFeedback
                         onPress={onSignOut}
-                        background={TouchableNativeFeedback.SelectableBackgroundBorderless()}>
+                        background={TouchableNativeFeedback.SelectableBackground()}>
                         <View style={styles.logoutContainer}>
                             <Icon
                                 name="exit-to-app"
