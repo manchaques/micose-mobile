@@ -34,16 +34,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        padding: 8
+        padding: 8,
+        alignItems: 'center'
     },
     user: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     pseudo: {
         fontSize: 16,
-        height: 40,
-        alignItems: 'center'
+        paddingLeft: 5
     },
     avatar: {
         width: 50,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover'
     },
     books: {
-        justifyContent: 'center'
+
     }
 });
 

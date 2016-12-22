@@ -16,10 +16,6 @@ const Book = ({book}) => {
                         <Text style={styles.title}>
                             {book.title}
                         </Text>
-                        <Icon
-                            name={stateIcon}
-                            size={30}
-                        />
                     </View>
                     <View style={styles.secondRow}>
                         <Text style={styles.subtitle}>
@@ -27,6 +23,10 @@ const Book = ({book}) => {
                         </Text>
                     </View>
                 </View>
+                <Icon
+                    name={stateIcon}
+                    size={30}
+                />
             </View>
         )
     } else {
@@ -54,7 +54,8 @@ Book.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     thumbnail: {
         flex: 1,
