@@ -67,7 +67,8 @@ export function trySignInGoogle() {
 }
 
 function _fetchUser(googleUser) {
-    return fetch('https://www.micose.pierrepironin.fr/api/user/find?pseudo=' + googleUser.name.replace(' ', '_'))
+    const techName = googleUser.name.replace(' ', '_');
+    return fetch('https://www.micose.pierrepironin.fr/api/user/find?techName=' + techName)
         .then((response) => {
             return response.json();
         })
@@ -76,13 +77,6 @@ function _fetchUser(googleUser) {
                 // TODO create user
             }
             return response.data;
-        })
-        .then((user) => {
-            let completeUser = user;
-            _.extend(completeUser, {
-                googleProfile: googleUser
-            });
-            return completeUser;
         })
         .catch((error) => {
             console.warn(error);

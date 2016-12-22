@@ -17,10 +17,10 @@ const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => {
 
                 <View style={styles.user}>
                     <View style={styles.thumbnailUser}>
-                        <Image source={{uri: user.googleProfile.photo}} style={styles.userPhoto}/>
+                        <Image source={{uri: user.avatarUrl}} style={styles.userPhoto}/>
                     </View>
                     <Text style={styles.userName}>
-                        {user.googleProfile.name}
+                        {user.pseudo}
                     </Text>
                     <Hr lineColor='gainsboro' styles={styles.separator}/>
                 </View>
@@ -68,15 +68,10 @@ const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => {
 
 Drawer.propTypes = {
     user: PropTypes.shape({
-        googleProfile: PropTypes.shape({
-            photo: PropTypes.string,
-            name: PropTypes.string.isRequired,
-        }),
+        pseudo: PropTypes.string.isRequired,
+        avatarUrl: PropTypes.string.isRequired,
+        techName: PropTypes.string.isRequired,
         communities: PropTypes.array.isRequired
-        // Of({
-        // id: PropTypes.number.isRequired,
-        // name: PropTypes.string.isRequired
-        // }).isRequired
     }),
     selectedCommunity: PropTypes.number.isRequired,
     onCommunityChanged: PropTypes.func.isRequired,
