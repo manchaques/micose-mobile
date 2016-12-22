@@ -44,6 +44,10 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
                 <BooksSearchBar style={styles.searchBar} />
             </View>
         )
+    } else {
+        return (
+            <View />
+        )
     }
 };
 

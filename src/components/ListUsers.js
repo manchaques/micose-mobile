@@ -31,6 +31,10 @@ const Users = ({community, loading, users, isRefreshing, onRefresh}) => {
                 />
             </View>
         )
+    } else {
+        return (
+            <View />
+        )
     }
 };
 

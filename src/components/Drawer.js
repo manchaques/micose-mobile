@@ -63,6 +63,10 @@ const Drawer = ({user, selectedCommunity, onCommunityChanged, onSignOut}) => {
                 </View>
             </View>
         )
+    } else {
+        return (
+            <View />
+        )
     }
 };
 

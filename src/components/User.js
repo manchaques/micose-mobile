@@ -1,17 +1,24 @@
 import React, {PropTypes} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 const User = ({user}) => {
     if (user) {
         return (
             <View style={styles.container}>
-                <Text style={styles.user}>
-                    {user.pseudo}
-                </Text>
+                <View style={styles.user}>
+                    <Image source={{uri: user.avatarUrl}} style={styles.avatar}/>
+                    <Text style={styles.pseudo}>
+                        {user.pseudo}
+                    </Text>
+                </View>
                 <Text style={styles.books}>
                     {user.books.length} {(user.books.length > 1 ? 'books' : 'book')}
                 </Text>
             </View>
+        )
+    } else {
+        return (
+            <View />
         )
     }
 };
@@ -31,9 +38,21 @@ const styles = StyleSheet.create({
     },
     user: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'row'
+    },
+    pseudo: {
         fontSize: 16,
-        height: 40
+        height: 40,
+        alignItems: 'center'
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        resizeMode: 'cover'
+    },
+    books: {
+        justifyContent: 'center'
     }
 });
 

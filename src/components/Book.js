@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
-import moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Book = ({book}) => {
     if (book) {
+        let stateIcon = book.borrower ? "lock" : "lock-open";
         return (
             <View style={styles.container}>
                 <View style={styles.thumbnail}>
@@ -15,20 +16,22 @@ const Book = ({book}) => {
                         <Text style={styles.title}>
                             {book.title}
                         </Text>
-                        <Text style={styles.owner}>
-                            {book.owner.pseudo} {book.borrower ? '-> ' + book.borrower.pseudo : ''}
-                        </Text>
+                        <Icon
+                            name={stateIcon}
+                            size={30}
+                        />
                     </View>
                     <View style={styles.secondRow}>
                         <Text style={styles.subtitle}>
                             {book.subtitle}
                         </Text>
-                        <Text style={styles.updateDate}>
-                            {moment(book.updateDate).format('ll')}
-                        </Text>
                     </View>
                 </View>
             </View>
+        )
+    } else {
+        return (
+            <View />
         )
     }
 };
@@ -86,16 +89,6 @@ const styles = StyleSheet.create({
     subtitle: {
         flex: 3,
         fontSize: 12
-    },
-    owner: {
-        flex: 1,
-        fontSize: 12,
-        textAlign: 'right'
-    },
-    updateDate: {
-        flex: 1,
-        fontSize: 10,
-        textAlign: 'right'
     }
 });
 
