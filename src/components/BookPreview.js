@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Book = ({book}) => {
+const BookPreview = ({book}) => {
     if (book) {
         let stateIcon = book.borrower ? "lock" : "lock-open";
         return (
@@ -36,7 +36,7 @@ const Book = ({book}) => {
     }
 };
 
-Book.propTypes = {
+BookPreview.propTypes = {
     book: PropTypes.shape({
         cover_url: PropTypes.string,
         title: PropTypes.string.isRequired,
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Book
+export default BookPreview

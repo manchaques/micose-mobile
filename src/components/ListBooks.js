@@ -11,7 +11,7 @@ import Hr from 'react-native-hr';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import Book from './Book';
+import BookPreview from './BookPreview';
 import BooksSearchBar from '../containers/BooksSearchBar';
 
 const ds = new ListView.DataSource({
@@ -27,7 +27,7 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
                 <ListView
                     style={styles.books}
                     dataSource={ds.cloneWithRowsAndSections(books)}
-                    renderRow={(rowData) => <Book book={rowData}/>}
+                    renderRow={(rowData) => <BookPreview book={rowData}/>}
                     renderSectionHeader={(sectionData, firstLetter) =>
                         <View>
                             <Text style={{fontWeight: "700", textAlign: 'center'}}>{firstLetter}</Text>
@@ -54,7 +54,7 @@ const Books = ({community, loading, books, isRefreshing, onRefresh}) => {
 Books.propTypes = {
     community: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
-    // books: PropTypes.arrayOf(Book).isRequired,
+    // books: PropTypes.arrayOf(BookPreview).isRequired,
     isRefreshing: PropTypes.bool.isRequired,
     onRefresh: PropTypes.func.isRequired
 };
